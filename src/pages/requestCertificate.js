@@ -5,7 +5,10 @@ export function RequestCertificateForm() {
     const [purpose, setPurpose] = useState('');
     const [issuedOn, setIsssuedOn] = useState('');
     const [employeeID, setEmployeeId] = useState('');
+
     const [isPending, setIsPending] = useState(false);
+
+    const[message, setMessage] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,8 +42,9 @@ export function RequestCertificateForm() {
             if (response.ok) {
                 console.log('ok');
                 response.json();
+                setMessage('Request submitted successfully.')
             } else {
-                console.log('notOk');
+                setMessage('API call error.');
             }
         })
         .then(() => {
@@ -49,6 +53,8 @@ export function RequestCertificateForm() {
     }
 
     return (
+        <div>
+        {message && <p>{message}</p>}
         <form onSubmit={handleSubmit}>
             <label htmlFor="addressTo">Address To:</label>
             <textarea id="addressTo" name="addressTo" pattern="/^[0-9a-za-z(\-)]+$/" value={addressTo} onChange={(e) => setAddressTo(e.target.value)} placeholder="Address" required></textarea>
@@ -65,6 +71,7 @@ export function RequestCertificateForm() {
             { !isPending && <button type="submit">Submit certificate request</button>}
             { isPending && <button type="submit" disabled>Submitting certificate request...</button>}
         </form>
+        </div>
     );
 }
 
