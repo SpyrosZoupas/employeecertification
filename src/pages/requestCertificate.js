@@ -35,10 +35,10 @@ export function RequestCertificateForm() {
                 'Content-type': 'application/x-www-form-urlencoded',
             },
         })
-        .then((response) => response.json())
         .then(function (response) {
             if (response.ok) {
                 console.log('ok');
+                response.json();
             } else {
                 console.log('notOk');
             }
