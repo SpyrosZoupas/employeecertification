@@ -5,14 +5,16 @@ export function RequestCertificateForm() {
     const [purpose, setPurpose] = useState('');
     const [issuedOn, setIsssuedOn] = useState('');
     const [employeeID, setEmployeeId] = useState('');
+    const [isPending, setIsPending] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsPending(true);
         addPost(addressTo, purpose, issuedOn, employeeID);
-        /*setAddressTo('');
+        setAddressTo('');
         setPurpose('');
         setIsssuedOn('');
-        setEmployeeId('');*/
+        setEmployeeId('');
     };
 
     useEffect(() => {
@@ -21,36 +23,47 @@ export function RequestCertificateForm() {
 
     /*passasobject*/
     const addPost = (addressTo, purpose, issuedOn, employeeID) => {
-        fetch(': https://zalexinc.azure-api.net/request-certificate?subscription-key=0e9cb8c5b1e945e99922d8e1a3454f99',  {
+        fetch('https://zalexinc.azure-api.net/request-certificate?subscription-key=0e9cb8c5b1e945e99922d8e1a3454f99',  {
             method: 'POST',
-            body: JSON.stringify({
-                addressTo: addressTo,
-                purpose: purpose,
-                issuedOn: issuedOn,
-                employeeID: employeeID
-            }),
+            body: {
+                "address_to": addressTo,
+                "purpose": purpose,
+                "issued_on": issuedOn,
+                "employee_id": employeeID
+            },
             headers: {
-                'Content-type': 'application/json; charset=UTF-8',
+                'Content-type': 'application/x-www-form-urlencoded',
             },
         })
         .then((response) => response.json())
+        .then(function (response) {
+            if (response.ok) {
+                console.log('ok');
+            } else {
+                console.log('notOk');
+            }
+        })
+        .then(() => {
+            setIsPending(false);
+        })
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <label for="addressTo">Address To:</label>
-            <textarea id="addressTo" name="addressTo" pattern="/^[0-9a-za-z(\-)]+$/" value={addressTo} onChange={(e) => setAddressTo(e.target.value)} required></textarea>
+            <label htmlFor="addressTo">Address To:</label>
+            <textarea id="addressTo" name="addressTo" pattern="/^[0-9a-za-z(\-)]+$/" value={addressTo} onChange={(e) => setAddressTo(e.target.value)} placeholder="Address" required></textarea>
 
-            <label for="purpose">Purpose</label>
-            <textarea id="purpose" name="purpose" minLength={50} value={purpose} onChange={(e) => setPurpose(e.target.value)} required></textarea>
+            <label htmlFor="purpose">Purpose</label>
+            <textarea id="purpose" name="purpose" minLength={50} value={purpose} onChange={(e) => setPurpose(e.target.value)} placeholder="Purpose" required></textarea>
 
-            <label for="issuedOn">Issued On:</label>
+            <label htmlFor="issuedOn">Issued On:</label>
             <input type="date" id="issuedOn" name="issuedOn" value={issuedOn} onChange={(e) => setIsssuedOn(e.target.value)} required></input>
 
-            <label for="employeeID">Employee ID:</label>
-            <input type="text" id="employeeeID" name="employeeID" value={employeeID} onChange={(e) => setEmployeeId(e.target.value)} pattern="\d+" required></input>
+            <label htmlFor="employeeID">Employee ID:</label>
+            <input type="text" id="employeeeID" name="employeeID" value={employeeID} onChange={(e) => setEmployeeId(e.target.value)} placeholder="Employee ID" pattern="\d+" required></input>
 
-            <button type="submit">Submit certificate request</button>
+            { !isPending && <button type="submit">Submit certificate request</button>}
+            { isPending && <button type="submit" disabled>Submitting certificate request...</button>}
         </form>
     );
 }
