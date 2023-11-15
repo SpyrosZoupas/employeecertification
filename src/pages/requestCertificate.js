@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export function RequestCertificateForm() {
     const [addressTo, setAddressTo] = useState('');
@@ -6,12 +7,13 @@ export function RequestCertificateForm() {
     const [issuedOn, setIsssuedOn] = useState('');
     const [employeeID, setEmployeeId] = useState('');
 
+    const { register, handleSubmit, formState: { errors } } = useForm({mode: 'all'})
+
     const [isPending, setIsPending] = useState(false);
 
     const[message, setMessage] = useState(null);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const submit = (e) => {
         setIsPending(true);
         addPost(addressTo, purpose, issuedOn, employeeID);
         setAddressTo('');
@@ -55,18 +57,21 @@ export function RequestCertificateForm() {
     return (
         <div>
         {message && <p>{message}</p>}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(submit)}>
             <label htmlFor="addressTo">Address To:</label>
-            <textarea id="addressTo" name="addressTo" pattern="/^[0-9a-za-z(\-)]+$/" value={addressTo} onChange={(e) => setAddressTo(e.target.value)} placeholder="Address" required></textarea>
+            <textarea id="addressTo" name="addressTo" {...register("addressTo", {required: true , pattern: {value: /^[A-Za-z0-9]+$/}})} placeholder="Address"></textarea>
+            {errors.addressTo && <p>Address can only be Alphanumeric</p>}
 
             <label htmlFor="purpose">Purpose</label>
-            <textarea id="purpose" name="purpose" minLength={50} value={purpose} onChange={(e) => setPurpose(e.target.value)} placeholder="Purpose" required></textarea>
+            <textarea id="purpose" name="purpose" {...register("purpose", {required: true, minLength: 50})} placeholder="Purpose"></textarea>
+            {errors.purpose && <p>Purpose must be a minimum of 50 characters</p>}
 
             <label htmlFor="issuedOn">Issued On:</label>
-            <input type="date" id="issuedOn" name="issuedOn" value={issuedOn} onChange={(e) => setIsssuedOn(e.target.value)} required></input>
+            <input type="date" id="issuedOn" name="issuedOn" {...register("issuedOn", {required: true})}></input>
 
             <label htmlFor="employeeID">Employee ID:</label>
-            <input type="text" id="employeeeID" name="employeeID" value={employeeID} onChange={(e) => setEmployeeId(e.target.value)} placeholder="Employee ID" pattern="\d+" required></input>
+            <input type="number" id="employeeeID" name="employeeID" {...register("employeeID", {required: true, valueAsNumber: true})} placeholder="Employee ID" pattern="\d+" required></input>
+            {errors.employeeID && <p>Employee ID must be a number</p>}
 
             { !isPending && <button type="submit">Submit certificate request</button>}
             { isPending && <button type="submit" disabled>Submitting certificate request...</button>}
