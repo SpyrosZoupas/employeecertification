@@ -31,14 +31,27 @@ export function RequestList() {
   const sortedRequests = [...requests].sort((a, b) => {
     const keyA = a[sortKey];
     const keyB = b[sortKey];
-
-    if (keyA < keyB) {
-      return sortDirection === "asc" ? -1 : 1;
+  
+    if (sortKey === "issued_on") {
+      const dateA = new Date(keyA);
+      const dateB = new Date(keyB);
+  
+      if (dateA < dateB) {
+        return sortDirection === "asc" ? -1 : 1;
+      }
+      if (dateA > dateB) {
+        return sortDirection === "asc" ? 1 : -1;
+      }
+      return 0;
+    } else {
+      if (keyA < keyB) {
+        return sortDirection === "asc" ? -1 : 1;
+      }
+      if (keyA > keyB) {
+        return sortDirection === "asc" ? 1 : -1;
+      }
+      return 0;
     }
-    if (keyA > keyB) {
-      return sortDirection === "asc" ? 1 : -1;
-    }
-    return 0;
   });
 
   return (
@@ -99,7 +112,7 @@ export function RequestList() {
             return (
               searchParts.every(part =>
               part === '' || referenceNoString === part || status === part ||  addressToParts.some(word => word === part)
-              ));
+            ));
           })
           .map((request) => (
             <tr key={request.id}>
