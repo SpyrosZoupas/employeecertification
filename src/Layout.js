@@ -1,4 +1,5 @@
 import { Outlet, Link } from 'react-router-dom';
+import './Layout.css';
 
 export function Layout() {
   return (
@@ -6,10 +7,10 @@ export function Layout() {
       <nav>
         <ul>
           <li>
-            <Link to="/submitRequest">Request a Certificate</Link>
+            <Link to="/submitRequest" class="links">Request a Certificate</Link>
           </li>
           <li>
-            <Link to="/requests">See your Requests</Link>
+            <Link to="/requests" class="links">See your Requests</Link>
           </li>
         </ul>
       </nav>
