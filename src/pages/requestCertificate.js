@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import './requestCertificate.css';
 
 export function RequestCertificateForm() {
     const [addressTo, setAddressTo] = useState('');
@@ -56,7 +57,7 @@ export function RequestCertificateForm() {
 
     return (
         <div>
-        {message && <p>{message}</p>}
+        {message && <p class="successMessage">{message}</p>}
         <form onSubmit={handleSubmit(submit)}>
             <label htmlFor="addressTo">Address To:</label>
             <textarea id="addressTo" name="addressTo" {...register("addressTo", {required: true , pattern: {value: /^[A-Za-z0-9]+$/}})} placeholder="Address"></textarea>
