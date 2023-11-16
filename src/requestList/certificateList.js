@@ -89,7 +89,7 @@ export function RequestList() {
         </thead>
         <tbody>
           {sortedRequests.filter((request) => {
-            return search.toLowerCase() === '' ? request : request.reference_no.toString().toLowerCase().includes(search);
+            return search.toLowerCase() === '' ? request : request.reference_no.toString() === search.toLowerCase();
           })
           .map((request) => (
             <tr key={request.id}>
