@@ -88,15 +88,15 @@ export function RequestList() {
           </tr>
         </thead>
         <tbody>
-          {sortedRequests.filter((request) => {
-            //return search.toLowerCase() === '' ? request : request.reference_no.toString() === search.toLowerCase();
-            if (search.toLowerCase() === '') {
-              return request;
-            } else if (request.reference_no.toString() === search.toLowerCase()) {
-              return request.reference_no.toString() === search.toLowerCase();
-            } else if (request.status.toString().toLowerCase() === search.toLowerCase()) {
-              return request.status.toString().toLowerCase() === search.toLowerCase();
-            }
+          {sortedRequests
+          .filter((request) => {
+            const referenceNoString = request.reference_no.toString();
+            const statusString = request.status.toString().toLowerCase();
+            return (
+              search.toLowerCase() === '' ||
+              referenceNoString === search.toLowerCase() ||
+              statusString === search.toLowerCase()
+            );
           })
           .map((request) => (
             <tr key={request.id}>
