@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 export function RequestList() {
     const [requests, setRequests] = useState([]);
+    const [sortKey, setSortKey] = useState("");
+    const [sortDirection, setSortDirection] = useState("asc");
 
     const getRequests = () => {
         fetch("https://zalexinc.azure-api.net/request-list?subscription-key=0e9cb8c5b1e945e99922d8e1a3454f99")
@@ -13,6 +15,15 @@ export function RequestList() {
         getRequests()
     }, []);
 
+    const handleSort = (key) => {
+        if (sortKey === key) {
+            setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+        } else {
+            setSortKey(key);
+            setSortDirection("asc");
+        }
+    }
+    
     return (
         <div>
           <h2>Certificate Requests</h2>
