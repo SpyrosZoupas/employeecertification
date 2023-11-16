@@ -3,10 +3,6 @@ import { useForm } from "react-hook-form";
 import './requestCertificate.css';
 
 export function RequestCertificateForm() {
-    const [addressTo, setAddressTo] = useState('');
-    const [purpose, setPurpose] = useState('');
-    const [issuedOn, setIsssuedOn] = useState('');
-    const [employeeID, setEmployeeId] = useState('');
 
     const { register, handleSubmit, formState: { errors } } = useForm({mode: 'all'})
 
@@ -14,20 +10,18 @@ export function RequestCertificateForm() {
 
     const[message, setMessage] = useState(null);
 
-    const submit = (e) => {
+    const submit = (data) => {
         setIsPending(true);
-        addPost(addressTo, purpose, issuedOn, employeeID);
-        setAddressTo('');
-        setPurpose('');
-        setIsssuedOn('');
-        setEmployeeId('');
+        addPost(data);
     };
 
     useEffect(() => {
         setMinimumDate();
     });
 
-    const addPost = (addressTo, purpose, issuedOn, employeeID) => {
+    const addPost = (formData) => {
+        const { addressTo, purpose, issuedOn, employeeID } = formData;
+
         fetch('https://zalexinc.azure-api.net/request-certificate?subscription-key=0e9cb8c5b1e945e99922d8e1a3454f99',  {
             method: 'POST',
             body: {
@@ -51,7 +45,7 @@ export function RequestCertificateForm() {
         })
         .then(setIsPending(false))
     }
-    
+
     return (
         <div>
         {message && <p class="successMessage">{message}</p>}
