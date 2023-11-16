@@ -4,11 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { RequestCertificateForm } from './pages/requestCertificate';
+import { RequestList } from './pages/certificateList';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RequestCertificateForm></RequestCertificateForm>
+    <App></App>
   </React.StrictMode>
 );
 
