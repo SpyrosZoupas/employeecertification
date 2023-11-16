@@ -1,7 +1,7 @@
 import './App.css';
 import { Layout } from './Layout';
-import { RequestList } from './pages/certificateList';
-import { RequestCertificateForm } from './pages/requestCertificate';
+import { RequestList } from './requestList/certificateList';
+import { RequestCertificateForm } from './requestCertificate/requestCertificate';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 

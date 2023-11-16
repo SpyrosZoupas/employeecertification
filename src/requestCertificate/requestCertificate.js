@@ -27,7 +27,6 @@ export function RequestCertificateForm() {
         setMinimumDate();
     });
 
-    /*passasobject*/
     const addPost = (addressTo, purpose, issuedOn, employeeID) => {
         fetch('https://zalexinc.azure-api.net/request-certificate?subscription-key=0e9cb8c5b1e945e99922d8e1a3454f99',  {
             method: 'POST',
@@ -50,11 +49,9 @@ export function RequestCertificateForm() {
                 setMessage('API call error.');
             }
         })
-        .then(() => {
-            setIsPending(false);
-        })
+        .then(setIsPending(false))
     }
-
+    
     return (
         <div>
         {message && <p class="successMessage">{message}</p>}
