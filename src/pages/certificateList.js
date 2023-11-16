@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SortableHeader } from "./sortableHeader";
+import './certificateList.css';
 
 export function RequestList() {
   const [requests, setRequests] = useState([]);
@@ -40,7 +41,6 @@ export function RequestList() {
 
   return (
     <div>
-      <h2>Certificate Requests</h2>
       <table>
         <thead>
           <tr>
