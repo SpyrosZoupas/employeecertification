@@ -6,6 +6,8 @@ export function RequestList() {
   const [requests, setRequests] = useState([]);
   const [sortKey, setSortKey] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
+  const [search, setSearch] = useState('');
+  console.log(search);
 
   const getRequests = () => {
     fetch("https://zalexinc.azure-api.net/request-list?subscription-key=0e9cb8c5b1e945e99922d8e1a3454f99")
@@ -41,6 +43,10 @@ export function RequestList() {
 
   return (
     <div>
+      <form>
+        <label htmlFor="search">Search:</label>
+        <input id="search" name="search" type="text" onChange={(e) => setSearch(e.target.value)} placeholder="Search individual requests"></input>
+      </form>
       <table>
         <thead>
           <tr>
