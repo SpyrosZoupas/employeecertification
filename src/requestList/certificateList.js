@@ -91,13 +91,14 @@ export function RequestList() {
           {sortedRequests
           .filter((request) => {
             const referenceNoString = request.reference_no.toString();
-            const statusString = request.status.toString().toLowerCase();
+            const status = request.status.toLowerCase();
+            const addressToParts = request.address_to.toLowerCase().split(' ');
 
             const searchParts = search.toLowerCase().split(' ');
             
             return (
               searchParts.every(part =>
-              referenceNoString === part || statusString === part || part === ''
+              part === '' || referenceNoString === part || status === part ||  addressToParts.some(word => word === part)
               ));
           })
           .map((request) => (
