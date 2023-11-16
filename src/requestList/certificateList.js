@@ -92,11 +92,13 @@ export function RequestList() {
           .filter((request) => {
             const referenceNoString = request.reference_no.toString();
             const statusString = request.status.toString().toLowerCase();
+
+            const searchParts = search.toLowerCase().split(' ');
+            
             return (
-              search.toLowerCase() === '' ||
-              referenceNoString === search.toLowerCase() ||
-              statusString === search.toLowerCase()
-            );
+              searchParts.every(part =>
+              referenceNoString === part || statusString === part || part === ''
+              ));
           })
           .map((request) => (
             <tr key={request.id}>
