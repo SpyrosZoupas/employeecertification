@@ -1,4 +1,5 @@
 import './App.css';
+import { Layout } from './Layout';
 import { RequestList } from './pages/certificateList';
 import { RequestCertificateForm } from './pages/requestCertificate';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -8,8 +9,10 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path="/" element={<RequestCertificateForm />}/>
-      <Route path="/requests" element={<RequestList />} />
+      <Route path="/" element={<Layout />}>
+        <Route path="/submitRequest" element={<RequestCertificateForm />} />
+        <Route path="/requests" element={<RequestList />} />
+      </Route>
     </Routes>
     </BrowserRouter>
   );
