@@ -1,17 +1,17 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { RequestCertificateForm } from './pages/requestCertificate';
 import { RequestList } from './pages/certificateList';
+import { RequestCertificateForm } from './pages/requestCertificate';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<RequestCertificateForm/>}/>
-        <Route path="/requests" element={<RequestList/>}/>
-      </Routes>
-    </Router>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<RequestCertificateForm />}/>
+      <Route path="/requests" element={<RequestList />} />
+    </Routes>
+    </BrowserRouter>
   );
 }
 
