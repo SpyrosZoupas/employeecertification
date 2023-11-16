@@ -88,7 +88,10 @@ export function RequestList() {
           </tr>
         </thead>
         <tbody>
-          {sortedRequests.map((request) => (
+          {sortedRequests.filter((request) => {
+            return search.toLowerCase() === '' ? request : request.reference_no.toString().toLowerCase().includes(search);
+          })
+          .map((request) => (
             <tr key={request.id}>
               <td>{request.reference_no}</td>
               <td>{request.address_to}</td>
